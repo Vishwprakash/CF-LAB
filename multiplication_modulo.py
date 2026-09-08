@@ -1,21 +1,28 @@
-def multiplication(a, b):
+def multiply_mod(a, b, modulus):
 
-    result = 0
+    product = 0
 
-    while a != 0:
+    while a > 0:
 
-        if a & 1:
-            result = result ^ b
+        if a % 2 == 1:
+            product = product ^ b
 
-        a = a >> 1
+        a = a // 2
         b = b << 1
 
-    return result
+    while product.bit_length() >= modulus.bit_length():
+
+        difference = product.bit_length() - modulus.bit_length()
+
+        product = product ^ (modulus << difference)
+
+    return product
 
 
 a = int(input("Enter first polynomial in binary: "), 2)
 b = int(input("Enter second polynomial in binary: "), 2)
+modulus = int(input("Enter irreducible polynomial in binary: "), 2)
 
-result = multiplication(a, b)
+answer = multiply_mod(a, b, modulus)
 
-print("Multiplication =", bin(result)[2:])
+print("Result =", bin(answer)[2:])
